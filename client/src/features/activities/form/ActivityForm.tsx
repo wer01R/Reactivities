@@ -1,7 +1,6 @@
 import { Box, Button, FormControl, MenuItem, Paper, TextField, Typography, Select, InputLabel, SelectChangeEvent } from "@mui/material";
 import React, { useState } from "react";
 import BaseActivity from "../../../lib/types/baseObjectByType/BaseActivity";
-import Test from "./test";
 type Props = {
   HandleFormClose: () => void
   HandleFormSubmit: (newActvity: Activity) => void
@@ -29,7 +28,7 @@ const ActivityForm = React.forwardRef<HTMLDivElement, Props>(({ HandleFormClose,
         </Typography>
 
         <Box display="flex" flexDirection="column" gap={3} >
-          <TextField require value={value?.title} onChange={e => HandleChange(e)} name="title" label="Title" />
+          <TextField required value={value?.title} onChange={e => HandleChange(e)} name="title" label="Title" />
           <TextField value={value?.description} onChange={e => HandleChange(e)} name="description" label="Description" multiline maxRows={5} />
 
           <FormControl>

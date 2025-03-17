@@ -15,6 +15,8 @@ public class CreateActivity
     {
         public async Task<string> Handle(Command request, CancellationToken cancellationToken)
         {
+            if(request.Activity.Id.Length == 0) throw new Exception("Activity id not supported");
+
             context.Activities.Add(request.Activity);
 
             await context.SaveChangesAsync(cancellationToken);

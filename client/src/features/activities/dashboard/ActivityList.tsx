@@ -5,10 +5,9 @@ import { useEffect, useState } from "react"
 type Props = {
   activities: Activity[]
   HandleSelectActivity: (index: number) => void
-  HandleFormDelete: (id: string) => void
 }
 
-export default function ActivityList({ activities, HandleSelectActivity, HandleFormDelete }: Props) {
+export default function ActivityList({ activities, HandleSelectActivity }: Props) {
   const [expandIndies, setExpandIndies] = useState<number[]>([]);
 
   useEffect(() => {
@@ -32,7 +31,7 @@ export default function ActivityList({ activities, HandleSelectActivity, HandleF
           in={expandIndies.includes(index)}
           unmountOnExit
         >
-          <ActivityCard activity={activity} key={activity.id} index={index} HandleSelectActivity={HandleSelectActivity} HandleFormDelete={HandleFormDelete}/>
+          <ActivityCard activity={activity} key={activity.id} index={index} HandleSelectActivity={HandleSelectActivity}/>
         </Grow>
       ))}
     </Box>

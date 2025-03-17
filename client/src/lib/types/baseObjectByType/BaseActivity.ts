@@ -1,7 +1,7 @@
 const BaseActivity : Activity = {
-	id: "",
+	id: crypto.randomUUID(),
   title: "",
-  date: "",
+  date: new Date().toISOString(),
   description: "",
   category: "",
   isCancelled: false,

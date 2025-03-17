@@ -1,37 +1,39 @@
-import { Box, Container, CssBaseline } from '@mui/material';
-import { useEffect, useState } from 'react'
-import axios from "axios";
+import { Box, CircularProgress, Container, CssBaseline } from '@mui/material';
+import { useState } from 'react'
 import NavBar from './NavBar';
 import ActivityDashboard from '../../features/activities/dashboard/ActivityDashboard';
+import { useActivities } from '../../lib/hooks/useActivitise';
 
 function App() {
-  const [activities, setActivities] = useState<Activity[]>([]);
   const [selectedActivity, setSelectedActivity] = useState<Activity | undefined>(undefined);
   const [formOpen, setFormOpen] = useState(false);
+  const {activities, isPending} = useActivities();
 
   function HandleFormOpen(index?: number) {
-    if(!index)
+    if (!index)
       HandleCancelActivity();
 
-    if(formOpen) {
-      HandleFormClose();
+    if (formOpen) {
+      HandleFormClose(undefined);
       setTimeout(() => {
         setFormOpen(true);
       }, 500)
     }
-    else 
+    else
       setFormOpen(true);
   }
 
-  function HandleFormClose() {
+  function HandleFormClose(activity: Activity | undefined) {
     setFormOpen(false);
-    setSelectedActivity(undefined);
+    setSelectedActivity(activity);
   }
 
-  function HandleSelectActivity(index : number) {
+  function HandleSelectActivity(index: number) {
+    if(!activities) return;
+
     if(index >= activities.length)
         return;
-    HandleFormClose();
+    HandleFormClose(undefined);
     setSelectedActivity(activities[index]);
   }
 
@@ -39,47 +41,25 @@ function App() {
     setSelectedActivity(undefined);
   }
 
-  function HandleFormSubmit(newActvity : Activity) {
-    if(newActvity.title.length == 0) return;
-
-    if(activities.find(x => x.id === newActvity.id)) {
-      setActivities(activities.map(x => x.id === newActvity.id ? newActvity : x));
-    }
-    else 
-      setActivities(prev => [...prev, {...newActvity, id: activities.length.toString() }])
-
-    HandleFormClose();
-  }
-
-  function HandleFormDelete(id : string) {
-    setActivities((prev) => prev.filter(x => x.id !== id));
-    if(selectedActivity && id === selectedActivity.id) {
-      setSelectedActivity(undefined);
-    }
-  }
-
-  useEffect(() => {
-    axios.get("https://localhost:3001/api/activities")
-      .then((response => { setActivities(response.data) }));
-
-  }, [])
-
   return (
-    <Box sx = {{backgroundColor: '#eeeeee', display: 'flex', minHeight: window.innerHeight, paddingBottom: 3}}>
+    <Box sx={{ backgroundColor: '#eeeeee', display: 'flex', minHeight: '100vh', paddingBottom: 3 }}>
       <CssBaseline />
-      <NavBar HandleFormOpen={HandleFormOpen}/>
+      <NavBar HandleFormOpen={HandleFormOpen} />
       <Container maxWidth="xl" sx={{ mt: '4.5rem', pd: 4 }}>
-        <ActivityDashboard 
-          activities={activities} 
-          selectedActivity={selectedActivity}
-          HandleSelectActivity={HandleSelectActivity}
-          HandleCancelActivity={HandleCancelActivity}
-          HandleFormClose={HandleFormClose}
-          formOpen={formOpen}
-          HandleFormOpen={HandleFormOpen}
-          HandleFormSubmit={HandleFormSubmit}
-          HandleFormDelete={HandleFormDelete}
-        />
+        {!activities || isPending ? (
+          <CircularProgress />)
+          : (
+            <ActivityDashboard
+              activities={activities}
+              selectedActivity={selectedActivity}
+              HandleSelectActivity={HandleSelectActivity}
+              HandleCancelActivity={HandleCancelActivity}
+              HandleFormClose={HandleFormClose}
+              formOpen={formOpen}
+              HandleFormOpen={HandleFormOpen}
+            />
+          )
+        }
       </Container>
     </Box>
   )

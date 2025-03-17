@@ -37,7 +37,7 @@ export default function NavBar({HandleFormOpen} : Props) {
             </Button>
           </Toolbar>
         </Container>
-        </GradientAppBar>
+      </GradientAppBar>
     </Box>
   )
 }

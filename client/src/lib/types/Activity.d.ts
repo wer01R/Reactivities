@@ -1,5 +1,5 @@
 type Activity = {
-    id: string
+    id: string | undefine
     title: string
     date: string
     description: string

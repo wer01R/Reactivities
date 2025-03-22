@@ -1,19 +1,21 @@
-import { Box, Button, Paper, TextField, Typography, SelectChangeEvent } from "@mui/material";
+import { Box, Button, Paper, TextField, Typography, SelectChangeEvent, CircularProgress } from "@mui/material";
 import React, { useState } from "react";
 import BaseActivity from "../../../lib/types/baseObjectByType/BaseActivity";
 import ActivityCategorySelect from "./ActivityCategorySelect";
 import { useActivities } from "../../../lib/hooks/useActivitise";
+import { useNavigate, useParams } from "react-router";
 
 type Props = {
-  HandleFormClose: (activity: Activity | undefined) => void
   style?: React.CSSProperties
   className?: string
-  activity?: Activity
 }
 
-const ActivityForm = React.forwardRef<HTMLDivElement, Props>(({ HandleFormClose, style, className, activity }: Props, ref) => {
+const ActivityForm = React.forwardRef<HTMLDivElement, Props>(({ style, className}: Props, ref) => {
+  const { id } = useParams();
+  const {activity ,updateActivity, createActivity, isLoadingActivity} = useActivities(id);
   const [value, setValue] = useState<Activity>(activity ?? BaseActivity);
-  const {updateActivity, createActivity} = useActivities();
+  const navigate = useNavigate();
+
 
   function HandleChange(e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement> | SelectChangeEvent<string>) {
     const a: Activity = {
@@ -24,13 +26,20 @@ const ActivityForm = React.forwardRef<HTMLDivElement, Props>(({ HandleFormClose,
   }
 
   async function HandleSubmit() {
-    if(activity) 
+    if(activity) {
       await updateActivity.mutateAsync(value);
-    else 
-      await createActivity.mutateAsync(value);
-
-    HandleFormClose(value);
+      navigate(`/activities/${id}`);
+    }
+    else { 
+      createActivity.mutate(value, {
+        onSuccess: (id) => {
+          navigate(`/activities/${id}`);
+        }
+      });
+    }
   }
+
+  if(isLoadingActivity) return <CircularProgress />
 
   return (
     <div ref={ref} style={style} className={className} id="divActivityForm">
@@ -54,7 +63,7 @@ const ActivityForm = React.forwardRef<HTMLDivElement, Props>(({ HandleFormClose,
         </Box>
 
         <Box display="flex" justifyContent={"end"} gap={3} mt={1}>
-          <Button onClick={() => HandleFormClose(undefined)}>Cancel</Button>
+          <Button onClick={() => navigate("/activities")}>Cancel</Button>
           <Button 
             type="submit" 
             color="success" 

@@ -1,16 +1,18 @@
-import { Box, Grow } from "@mui/material"
+import { Box, CircularProgress, Grow } from "@mui/material"
 import ActivityCard from "./ActivityCard"
 import { useEffect, useState } from "react"
+import { useActivities } from "../../../lib/hooks/useActivitise";
 
-type Props = {
-  activities: Activity[]
-  HandleSelectActivity: (index: number) => void
-}
 
-export default function ActivityList({ activities, HandleSelectActivity }: Props) {
+export default function ActivityList() {
   const [expandIndies, setExpandIndies] = useState<number[]>([]);
+  
+  const {activities, isPending} = useActivities();
 
+  
   useEffect(() => {
+    if(!activities || isPending) return;
+
     activities.forEach((_, index) => {
       if (expandIndies.includes(index))
         return;
@@ -18,9 +20,9 @@ export default function ActivityList({ activities, HandleSelectActivity }: Props
         setExpandIndies((pre) => [...pre, index])
       }, index * 100);
     })
-  }, [activities])
+  }, [activities, isPending])
 
-
+	if(!activities || isPending) return <CircularProgress />;
 
   return (
     <Box sx={{ display: 'flex', flexDirection: "column", gap: 3 }}>
@@ -31,7 +33,7 @@ export default function ActivityList({ activities, HandleSelectActivity }: Props
           in={expandIndies.includes(index)}
           unmountOnExit
         >
-          <ActivityCard activity={activity} key={activity.id} index={index} HandleSelectActivity={HandleSelectActivity}/>
+          <ActivityCard activity={activity} key={activity.id} />
         </Grow>
       ))}
     </Box>

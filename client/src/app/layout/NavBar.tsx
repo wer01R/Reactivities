@@ -1,19 +1,18 @@
 import { Group } from "@mui/icons-material";
 import { Box, Button, Container, MenuItem, Toolbar, Typography } from "@mui/material";
 import {GradientAppBar} from "./GradientAppBar";
+import { NavLink } from "react-router";
+import MenuItemLink from "../shared/components/MenuItemLink";
 
-type Props = {
-  HandleFormOpen: () => void
-}
 
-export default function NavBar({HandleFormOpen} : Props) {
+export default function NavBar() {
   return (
     <Box sx={{ flexGrow: 1 }}>
       <GradientAppBar>
         <Container maxWidth="xl">
           <Toolbar sx={{display: 'flex', justifyContent: 'space-between'}}>
             <Box>
-              <Button sx={{display: 'flex', gap: 2, color: "white"}}>
+              <Button component={NavLink} to="/" sx={{display: 'flex', gap: 2, color: "white"}}>
                 <Group fontSize="large" />
                 <Typography variant='h4' fontWeight='bold'>
                     Reactivities
@@ -21,20 +20,17 @@ export default function NavBar({HandleFormOpen} : Props) {
               </Button>
             </Box>
             <Box sx={{display: 'flex'}}>
-              <MenuItem sx={{fontSize: '1.2rem', textTransform: 'uppercase', fontWeight: 'bold'}}>
+              <MenuItemLink to='/activities'>
                 activities
-              </MenuItem>
-              <MenuItem sx={{fontSize: '1.2rem', textTransform: 'uppercase', fontWeight: 'bold'}}>
-                about
-              </MenuItem>
-              <MenuItem sx={{fontSize: '1.2rem', textTransform: 'uppercase', fontWeight: 'bold'}}>
-                contact
-              </MenuItem>
+              </MenuItemLink>
+              <MenuItemLink to='/createActivity'>
+                Create Activity
+              </MenuItemLink>
             </Box>
 
-            <Button size='large' variant="contained" color='warning' onClick={() => HandleFormOpen()}>
-              Create Activity
-            </Button>
+            <MenuItem>
+              User Info
+            </MenuItem>
           </Toolbar>
         </Container>
       </GradientAppBar>

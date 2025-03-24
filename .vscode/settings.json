@@ -32,6 +32,4 @@
       "editor.tabSize": 2,
       "editor.insertSpaces": false  // Markdown 中使用实际 Tab 字符
     },
-
-    
 }

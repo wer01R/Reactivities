@@ -2,3 +2,8 @@
 	position: sticky;
 	top: 4.5rem;
 }
+
+.react-calendar {
+	width: 100% !important;
+	border: none !important;
+}

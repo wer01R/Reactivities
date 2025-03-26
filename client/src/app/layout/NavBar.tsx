@@ -1,11 +1,15 @@
 import { Group } from "@mui/icons-material";
-import { Box, Button, Container, MenuItem, Toolbar, Typography } from "@mui/material";
+import { Box, Button, Container, LinearProgress, MenuItem, Toolbar, Typography } from "@mui/material";
 import {GradientAppBar} from "./GradientAppBar";
 import { NavLink } from "react-router";
 import MenuItemLink from "../shared/components/MenuItemLink";
+import { Observer } from "mobx-react-lite";
+import { useStore } from "../../lib/hooks/useStore";
 
 
 export default function NavBar() {
+  const {uiStore} = useStore();
+
   return (
     <Box sx={{ flexGrow: 1 }}>
       <GradientAppBar>
@@ -26,6 +30,9 @@ export default function NavBar() {
               <MenuItemLink to='/createActivity'>
                 Create Activity
               </MenuItemLink>
+              <MenuItemLink to='/counter'>
+                Counter
+              </MenuItemLink>
             </Box>
 
             <MenuItem>
@@ -33,6 +40,21 @@ export default function NavBar() {
             </MenuItem>
           </Toolbar>
         </Container>
+
+        <Observer>
+          {() => ( uiStore.isLoading ? 
+            <LinearProgress 
+              color="secondary"
+              sx={{
+                position: 'relative',
+                left: 0,
+                right: 0,
+                buttom: 0,
+                height: 4
+              }}  
+            /> : null
+          )}  
+        </Observer>
       </GradientAppBar>
     </Box>
   )

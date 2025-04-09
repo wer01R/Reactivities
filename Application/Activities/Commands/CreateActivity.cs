@@ -1,5 +1,8 @@
 using System;
+using Application.DTOs;
+using AutoMapper;
 using Domain;
+using FluentValidation;
 using MediatR;
 using Persistence;
 
@@ -7,20 +10,24 @@ namespace Application.Activities.Commands;
 
 public class CreateActivity
 {
-    public class Command : IRequest<string> {
-        public required Activity Activity {get; set;}
+    public class Command : IRequest<Result<string>> {
+        public required CreateActivityDto ActivityDto {get; set;}
     }
 
-    public class Handler(AppDbContext context) : IRequestHandler<Command, String>
+    public class Handler(AppDbContext context, IMapper mapper, IValidator<Command> validator) : IRequestHandler<Command, Result<string>>
     {
-        public async Task<string> Handle(Command request, CancellationToken cancellationToken)
+        public async Task<Result<string>> Handle(Command request, CancellationToken cancellationToken)
         {
-            if(request.Activity.Id.Length == 0) throw new Exception("Activity id not supported");
+            // await validator.ValidateAndThrowAsync(request, cancellationToken);
 
-            context.Activities.Add(request.Activity);
+            var activity = mapper.Map<Activity>(request.ActivityDto);
 
-            await context.SaveChangesAsync(cancellationToken);
-            return request.Activity.Id;
+            context.Activities.Add(activity);
+
+            var res = await context.SaveChangesAsync(cancellationToken) > 0;
+            if(!res) return Result<string>.Failure("Failed to delete the activity", 400);
+
+            return Result<string>.Success(activity.Id);
         }
     }
 }

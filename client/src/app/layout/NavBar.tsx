@@ -18,7 +18,7 @@ export default function NavBar() {
             <Box>
               <Button component={NavLink} to="/" sx={{display: 'flex', gap: 2, color: "white"}}>
                 <Group fontSize="large" />
-                <Typography variant='h4' fontWeight='bold'>
+                <Typography variant='h3' fontWeight='bold'>
                     Reactivities
                 </Typography>
               </Button>
@@ -32,6 +32,9 @@ export default function NavBar() {
               </MenuItemLink>
               <MenuItemLink to='/counter'>
                 Counter
+              </MenuItemLink>
+              <MenuItemLink to='/errors'>
+                Eorrors
               </MenuItemLink>
             </Box>
 

@@ -1,5 +1,6 @@
 using System;
 using System.Reflection.Metadata.Ecma335;
+using Application.DTOs;
 using AutoMapper;
 using Domain;
 using MediatR;
@@ -9,20 +10,24 @@ namespace Application.Activities.Commands;
 
 public class EditActivity
 {
-    public class Command : IRequest {
-        public required Activity Activity;
+    public class Command : IRequest<Result<Unit>> {
+        public required EditActivityDto ActivityDto {get; set;}
     }
 
-    public class Handler(AppDbContext context, IMapper mapper) : IRequestHandler<Command> {
-        public async Task Handle(Command request, CancellationToken cancellationToken) {
+    public class Handler(AppDbContext context, IMapper mapper) : IRequestHandler<Command, Result<Unit>> {
+        public async Task<Result<Unit>> Handle(Command request, CancellationToken cancellationToken) {
 
             var activity = await context.Activities
-                .FindAsync([request.Activity.Id], cancellationToken) 
-                    ?? throw new Exception("Can't find activity");
+                .FindAsync([request.ActivityDto.Id], cancellationToken);
             
-            mapper.Map(request.Activity, activity);
+            if(activity == null) return Result<Unit>.Failure("Activity not found", 404);
+            
+            mapper.Map(request.ActivityDto, activity);
 
-            await context.SaveChangesAsync(cancellationToken);
+            var res = await context.SaveChangesAsync(cancellationToken) > 0;
+            if(!res) return Result<Unit>.Failure("Failed to delete the activity", 400);
+
+            return Result<Unit>.Success(Unit.Value);
         }
     }
 }

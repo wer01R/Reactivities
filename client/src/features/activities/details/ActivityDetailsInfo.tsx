@@ -1,7 +1,12 @@
 import { CalendarToday, Info, Place } from "@mui/icons-material";
-import { Divider, Grid2, Paper, Typography } from "@mui/material";
+import { Box, Button, Divider, Grid2, Paper, Typography } from "@mui/material";
+import { formatDate } from "../../../lib/util/util";
+import { useState } from "react";
+import MapComponent from "../../../app/shared/components/MapComponent";
 
-export default function ActivityDetailsInfo() {
+export default function ActivityDetailsInfo({ activity }: { activity: Activity }) {
+	const [mapOpen, setMapOpen] = useState(false);
+
 	return (
 		<Paper sx={{ mb: 2 }}>
 
@@ -10,7 +15,7 @@ export default function ActivityDetailsInfo() {
 					<Info color="info" fontSize="large" />
 				</Grid2>
 				<Grid2 size={11}>
-					<Typography>Activity description</Typography>
+					<Typography>{activity.description}</Typography>
 				</Grid2>
 			</Grid2>
 			<Divider />
@@ -19,7 +24,7 @@ export default function ActivityDetailsInfo() {
 					<CalendarToday color="info" fontSize="large" />
 				</Grid2>
 				<Grid2 size={11}>
-					<Typography>1 Jan 2025 at 1:40pm</Typography>
+					<Typography>{formatDate(activity.date)}</Typography>
 				</Grid2>
 			</Grid2>
 			<Divider />
@@ -28,12 +33,20 @@ export default function ActivityDetailsInfo() {
 				<Grid2 size={1}>
 					<Place color="info" fontSize="large" />
 				</Grid2>
-				<Grid2 size={11}>
+				<Grid2 size={11} display='flex' justifyContent='space-between' >
 					<Typography>
-						Venue, City
+						{activity.venue}, {activity.venue}
 					</Typography>
+					<Button onClick={() => setMapOpen(!mapOpen)}>
+						{mapOpen ? 'Hide map' : 'Show map'}
+					</Button>
 				</Grid2>
 			</Grid2>
+			{mapOpen && (
+				<Box sx={{height: 400, zIndex: 1000, display: 'block'}}>
+					<MapComponent position={[activity.latitude, activity.longitude]} venue={activity.venue} />
+				</Box>
+			)}
 		</Paper>
 	)
 }

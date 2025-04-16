@@ -17,7 +17,7 @@ export default function ActivityDetailPage() {
     <Grid2 container spacing={3}>
       <Grid2 size={8}>
         <ActivityDetailsHeader activity={activity}/>
-        <ActivityDetailsInfo />
+        <ActivityDetailsInfo activity={activity}/>
         <ActivityDetailsChat />
       </Grid2>
       <Grid2 size={4}>

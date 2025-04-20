@@ -1,4 +1,4 @@
-import { Box, CircularProgress, Grow } from "@mui/material"
+import { Box, CircularProgress, Grow, Typography } from "@mui/material"
 import ActivityCard from "./ActivityCard"
 import { useEffect, useState } from "react"
 import { useActivities } from "../../../lib/hooks/useActivitise";
@@ -7,11 +7,11 @@ import { useActivities } from "../../../lib/hooks/useActivitise";
 export default function ActivityList() {
   const [expandIndies, setExpandIndies] = useState<number[]>([]);
   
-  const {activities, isPending} = useActivities();
+  const {activities, isLoading} = useActivities();
 
   
   useEffect(() => {
-    if(!activities || isPending) return;
+    if(!activities || isLoading) return;
 
     activities.forEach((_, index) => {
       if (expandIndies.includes(index))
@@ -20,9 +20,10 @@ export default function ActivityList() {
         setExpandIndies((pre) => [...pre, index])
       }, index * 100);
     })
-  }, [activities, isPending])
+  }, [activities, isLoading])
 
-	if(!activities || isPending) return <CircularProgress />;
+	if(isLoading) return <CircularProgress />;
+  if(!activities) return <Typography>Activities not found</Typography>
 
   return (
     <Box sx={{ display: 'flex', flexDirection: "column", gap: 3 }}>

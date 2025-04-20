@@ -10,7 +10,8 @@ const sleep = (delay: number) => {
 }
 
 const agent = axios.create({
-  baseURL: import.meta.env.VITE_API_URL
+  baseURL: import.meta.env.VITE_API_URL,
+  withCredentials: true
 })
 
 agent.interceptors.request.use(config => {
@@ -37,7 +38,6 @@ agent.interceptors.response.use(
             if(data.errors[key])
               modalStateErrors.push(data.errors[key]);
           }
-          console.log(modalStateErrors.flat());
           throw modalStateErrors.flat();
         } else {
           toast.error(data);

@@ -1,7 +1,9 @@
+using System.Net;
 using Application.Activities.Commands;
 using Application.Activities.Queries;
 using Application.DTOs;
 using Domain;
+using Infrastructure.Security;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -10,7 +12,7 @@ namespace API.Controllers;
 public class ActivitiesController : BaseApiController
 {
     [HttpGet]
-    public async Task<ActionResult<List<Activity>>> GetActivities() {
+    public async Task<ActionResult<List<ActivityDto>>> GetActivities() {
         return await Mediator.Send(new GetActivityList.Query());
     }
 
@@ -26,11 +28,23 @@ public class ActivitiesController : BaseApiController
 
     [HttpPut]
     public async Task<IActionResult> EditActivity(EditActivityDto activityDto) {
+        HttpContext.Items["EditActivityDto"] = activityDto;
+
+        var result = await HttpContext.RequestServices
+            .GetService<IAuthorizationService>()!.AuthorizeAsync(User, null, new IsHostRequirement());
+        if(!result.Succeeded) return Forbid();
+
         return HandleRequest(await Mediator.Send(new EditActivity.Command {ActivityDto = activityDto}));
     }
 
     [HttpDelete("{id}")]
+    [Authorize("IsActivityHost")]
     public async Task<IActionResult> DeleteActivity(string id) {
         return HandleRequest(await Mediator.Send(new DeleteActivity.Command {Id = id}));
+    }
+
+    [HttpPost("{id}/attend")]
+    public async Task<IActionResult> Attend(string id) {
+        return HandleRequest(await Mediator.Send(new UpdateAttendance.Commands {Id = id}));
     }
 }

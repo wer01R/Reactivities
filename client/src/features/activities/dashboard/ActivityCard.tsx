@@ -3,6 +3,7 @@ import { Avatar, Box, Button, Card, CardContent, CardHeader, Chip, Divider, Typo
 import React from "react"
 import { Link } from "react-router"
 import { formatDate } from "../../../lib/util/util"
+import AvatarPopover from "../../../app/shared/components/AvatarPopover"
 
 type Props = {
   style?: React.CSSProperties
@@ -11,10 +12,11 @@ type Props = {
 }
 
 const ActivityCard = React.forwardRef<HTMLDivElement, Props>(({ activity, style, className }, ref) => {
-  const isHost = false;
-  const isGoing = false;
+  const isHost = activity.isHost;
+  const isGoing = activity.isGoing;
+
   const label = isHost ? 'You are hosting' : 'You are going';
-  const isCancelled = true;
+  const isCancelled = activity.isCancelled;
   const color = isHost ? 'secondary' : isGoing ? 'warning' : 'default';
 
 
@@ -33,13 +35,13 @@ const ActivityCard = React.forwardRef<HTMLDivElement, Props>(({ activity, style,
             }}
             subheader={
               <>
-                Host by{' '} <Link to={`/profiles/bob`}>Bob</Link>
+                Host by{' '} <Link to={`/profiles/${activity.hostId}`}>{activity.hostDisplayName}</Link>
               </>
             }
           />
 
           <Box display='flex' flexDirection='column' gap={2} mr={2}>
-            {(isHost || isGoing) && <Chip label={label} color={color} sx={{ borderRadius: 2 }} />}
+            {(isHost || isGoing) && <Chip variant="outlined" label={label} color={color} sx={{ borderRadius: 2 }} />}
             {isCancelled && <Chip label='Cancelled' color='error' sx={{ borderRadius: 2 }} />}
           </Box>
         </Box>
@@ -57,7 +59,9 @@ const ActivityCard = React.forwardRef<HTMLDivElement, Props>(({ activity, style,
           </Box>
           <Divider />
           <Box display='flex' gap={2} sx={{ backgroundColor: 'grey.200', py: 3, pl: 3 }} >
-            Attendees go here
+            {activity.attendees.map(att => (
+              <AvatarPopover profile={att} />
+            ))}
           </Box>
         </CardContent>
 

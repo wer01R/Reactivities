@@ -6,6 +6,7 @@ export default function RequireAuth() {
 	const {isLoadingUserInfo, currentUser} = useAccount();
 	const location = useLocation();
 
+
 	if(isLoadingUserInfo) return <CircularProgress />
 	if(!currentUser) return <Navigate to='/login' state={{from: location}} />
 

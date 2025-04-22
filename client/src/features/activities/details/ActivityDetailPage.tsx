@@ -8,7 +8,7 @@ import ActivityDetailsHeader from "./ActivityDetailsHeader";
 
 export default function ActivityDetailPage() {
   const {id} = useParams();
-  const {activity, isLoadingActivity} = useActivities(id);
+  const {activity, isLoadingActivity, updateAttendance} = useActivities(id);
 
   if(isLoadingActivity) return <CircularProgress />
   if(!activity) return <Typography variant='h4'>Activity not found</Typography>
@@ -16,12 +16,12 @@ export default function ActivityDetailPage() {
   return (
     <Grid2 container spacing={3}>
       <Grid2 size={8}>
-        <ActivityDetailsHeader activity={activity}/>
+        <ActivityDetailsHeader activity={activity} updateAttendance={updateAttendance}/>
         <ActivityDetailsInfo activity={activity}/>
         <ActivityDetailsChat />
       </Grid2>
       <Grid2 size={4}>
-        <ActivityDetailsSidebar />
+        <ActivityDetailsSidebar activity={activity} />
       </Grid2>
     </Grid2>
   )

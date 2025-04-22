@@ -15,9 +15,8 @@ export const useAccount = () => {
       await agent.post("/login?useCookies=true", creds);
     },
     onSuccess: async () => {
-      await queryClient.invalidateQueries({
-        queryKey: ['user']
-      });
+      await queryClient.invalidateQueries({queryKey: ['user'], refetchType: "none"});
+      await queryClient.fetchQuery({queryKey: ['user']});
     }
   })
 
@@ -44,9 +43,8 @@ export const useAccount = () => {
   const {data: currentUser, isLoading: isLoadingUserInfo} = useQuery({
     queryKey: ['user'],
     queryFn: async () => {
-      console.log(queryClient.getQueryData(['user']));
       const response = await agent.get<User>('/account/user-info');
-      return response.data
+      return response.data;
     },
     enabled: !queryClient.getQueryData(['user'])
             && location.pathname !== '/login' 
@@ -58,6 +56,6 @@ export const useAccount = () => {
     currentUser, 
     logoutUser, 
     isLoadingUserInfo, 
-    registerUser 
+    registerUser,
   }
 }

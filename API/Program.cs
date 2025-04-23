@@ -12,6 +12,8 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.Authorization;
 using Infrastructure.Security;
 using Interfaces;
+using Infrastructure.Photos;
+using Application.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -31,6 +33,7 @@ builder.Services.AddMediatR(x => {
 });
 
 builder.Services.AddScoped<IUserAccessor, UserAccessor>();
+builder.Services.AddScoped<IPhotoService, PhotoService>();
 builder.Services.AddTransient<ExceptionMiddleware>();
 
 builder.Services.AddHttpContextAccessor();
@@ -47,7 +50,8 @@ builder.Services.AddAuthorization(opt => {
     });
 });
 builder.Services.AddTransient<IAuthorizationHandler, IsHostRequirementHandler>();
-
+builder.Services.Configure<CloudinarySettings>(builder.Configuration
+    .GetSection("CloudinarySettings"));
 
 //Build 
 var app = builder.Build();

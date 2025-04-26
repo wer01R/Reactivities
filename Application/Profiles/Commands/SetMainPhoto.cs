@@ -23,7 +23,7 @@ public class SetMainPhoto
             var photo = user.Photos.FirstOrDefault(x => x.Id == request.PhotoId);
 
             if(photo == null) return Result<Unit>.Failure("Photo not found", 400);
-
+            
             user.ImageUrl = photo.Url;
 
             var res = await context.SaveChangesAsync(cancellationToken) > 0;

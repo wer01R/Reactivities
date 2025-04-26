@@ -4,11 +4,18 @@ import { Link } from "react-router"
 
 type Props = {
 	profile: Profile
+	onMouseEnter: React.MouseEventHandler<HTMLAnchorElement>
+	onMouseLeave: React.MouseEventHandler<HTMLAnchorElement>
 }
 
-export default function ProfileCard({profile} : Props) {
+export default function ProfileCard({profile, onMouseEnter, onMouseLeave} : Props) {
 	return (
-		<Link to={`profiles/${profile.imageUrl}`} style={{textDecoration: 'none'}}>
+		<Link 
+			to={`/profiles/${profile.id}`} 
+			style={{textDecoration: 'none'}}
+			onMouseEnter={onMouseEnter}
+			onMouseLeave={onMouseLeave}
+		>
 			<Card
 				sx={{
 					borderRadius: 3,
@@ -21,12 +28,22 @@ export default function ProfileCard({profile} : Props) {
 				<CardMedia 
 					component={'img'}
 					src={profile?.imageUrl || 'images/user.png'}
-					sx={{width: 200, zIndex: 50}}
+					sx={{width: '100%', zIndex: 50}}
 					alt={profile.displayName + ' image'}
 				/>
 				<CardContent>
-					<Box display='flex' gap={1}>
+					<Box display='flex' flexDirection='column' gap={1}>
 						<Typography variant="h5">{profile.displayName}</Typography>
+						{profile.bio && (
+							<Typography
+								variant="body2"
+								textOverflow='ellipsis'
+								overflow='hidden'
+								whiteSpace='nowrap'
+							>
+								{profile.bio}
+							</Typography>
+						)}
 						<Chip size="small" variant="outlined" 
 							label='Following' color="secondary"/>
 					</Box>

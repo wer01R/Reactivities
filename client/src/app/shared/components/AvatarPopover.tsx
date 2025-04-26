@@ -27,7 +27,7 @@ export default function AvatarPopover({profile} : Props) {
 				alt={profile.displayName + ' image'}
 				src={profile.imageUrl}
 				component={Link}
-				to={`profiles/${profile.id}`}
+				to={`/profiles/${profile.id}`}
 				onMouseEnter={handlePopoverOpen}
 				onMouseLeave={handlePopoverClose}
 			/>
@@ -47,8 +47,9 @@ export default function AvatarPopover({profile} : Props) {
 				}}
 				onClose={handlePopoverClose}
 				disableRestoreFocus
+				disableScrollLock
 			>
-				<ProfileCard profile={profile} />
+				<ProfileCard profile={profile} onMouseEnter={handlePopoverOpen} onMouseLeave={handlePopoverClose} />
 			</Popover>
 		</div>
 	);

@@ -25,7 +25,11 @@ const ActivityCard = React.forwardRef<HTMLDivElement, Props>(({ activity, style,
       <Card elevation={3} sx={{ borderRadius: 3 }}>
         <Box display='flex' alignItems='center' justifyContent='space-between'>
           <CardHeader
-            avatar={<Avatar src={"http://localhost:5094/api/randompicture/" + activity.id} sx={{ height: 80, width: 80 }} />}
+            avatar={<Avatar 
+              src={activity.hostImageUrl} 
+              sx={{ height: 80, width: 80 }} 
+              alt={activity.hostDisplayName + " image"}
+            />}
             title={activity.title}
             slotProps={{
               title: {
@@ -60,7 +64,7 @@ const ActivityCard = React.forwardRef<HTMLDivElement, Props>(({ activity, style,
           <Divider />
           <Box display='flex' gap={2} sx={{ backgroundColor: 'grey.200', py: 3, pl: 3 }} >
             {activity.attendees.map(att => (
-              <AvatarPopover profile={att} />
+              <AvatarPopover key={att.id} profile={att} />
             ))}
           </Box>
         </CardContent>

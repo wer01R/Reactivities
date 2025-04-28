@@ -1,7 +1,5 @@
-using System;
-using System.Security.Cryptography.X509Certificates;
 using Application.Activities.Commands;
-using Application.DTOs;
+using Application.Activities.DTOs;
 using FluentValidation;
 
 namespace Application.Validators;

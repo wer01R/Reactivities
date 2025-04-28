@@ -1,5 +1,4 @@
-using System;
-using Application.DTOs;
+using Application.Core;
 using Application.Profiles.DTOs;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
@@ -21,7 +20,7 @@ public class GetProfile
         {
             var profile = await context.Users
                 .ProjectTo<UserProfile>(mapper.ConfigurationProvider)
-                .FirstOrDefaultAsync(x => x.Id == request.UserId);
+                .FirstOrDefaultAsync(x => x.Id == request.UserId, cancellationToken);
             
             return profile == null
                 ? Result<UserProfile>.Failure("Profile not found", 400)

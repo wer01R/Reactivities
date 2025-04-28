@@ -1,8 +1,7 @@
-using System;
-using Application.DTOs;
+using Application.Activities.DTOs;
+using Application.Core;
 using AutoMapper;
 using Domain;
-using FluentValidation;
 using Interfaces;
 using MediatR;
 using Persistence;

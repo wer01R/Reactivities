@@ -1,5 +1,5 @@
 using Application.Activities.Commands;
-using Application.DTOs;
+using Application.Activities.DTOs;
 using Application.Profiles.DTOs;
 using AutoMapper;
 using Domain;
@@ -26,5 +26,8 @@ public class MappingProfiles : Profile
             .ForMember(d => d.ImageUrl, o => o.MapFrom(x => x.User.ImageUrl));
         
         CreateMap<User, UserProfile>();
+        CreateMap<Comment, CommentDto>()
+            .ForMember(d => d.DisplayName, o => o.MapFrom(x => x.User.DisplayName))
+            .ForMember(d => d.ImageUrl, o => o.MapFrom(x => x.User.ImageUrl));
     }
 }

@@ -1,7 +1,7 @@
 using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace Application.DTOs;
+namespace Application.Activities.DTOs;
 
 public class CreateActivityDto : BaseActivityDto
 {

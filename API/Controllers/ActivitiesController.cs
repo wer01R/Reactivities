@@ -1,8 +1,6 @@
-using System.Net;
 using Application.Activities.Commands;
+using Application.Activities.DTOs;
 using Application.Activities.Queries;
-using Application.DTOs;
-using Domain;
 using Infrastructure.Security;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;

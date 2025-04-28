@@ -14,6 +14,7 @@ using Infrastructure.Security;
 using Interfaces;
 using Infrastructure.Photos;
 using Application.Interfaces;
+using API.SignalR;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -27,6 +28,7 @@ builder.Services.AddDbContext<AppDbContext>(opt => {
     opt.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
 builder.Services.AddCors();
+builder.Services.AddSignalR();
 builder.Services.AddMediatR(x => {
     x.RegisterServicesFromAssemblyContaining<CreateActivity.Handler>();
     x.AddOpenBehavior(typeof(ValidationBehavior<,>));
@@ -44,6 +46,7 @@ builder.Services.AddIdentityApiEndpoints<User>(opt => {
 })
 .AddRoles<IdentityRole>()
 .AddEntityFrameworkStores<AppDbContext>();
+
 builder.Services.AddAuthorization(opt => {
     opt.AddPolicy("IsActivityHost", policy => {
         policy.Requirements.Add(new IsHostRequirement());
@@ -67,7 +70,7 @@ app.UseAuthorization();
 
 app.MapControllers();
 app.MapGroup("api").MapIdentityApi<User>();
-
+app.MapHub<CommentHub>("/comments");
 
 
 using var scope = app.Services.CreateScope();

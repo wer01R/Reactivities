@@ -1,6 +1,6 @@
 using System;
 
-namespace Application.DTOs;
+namespace Application.Core;
 
 public class Result<T>
 {

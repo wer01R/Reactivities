@@ -1,6 +1,6 @@
 using System;
 using System.Security.Claims;
-using Application.DTOs;
+using Application.Activities.DTOs;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;

@@ -1,6 +1,4 @@
-using System;
-using Application.DTOs;
-using Application.Interfaces;
+using Application.Core;
 using Interfaces;
 using MediatR;
 using Persistence;

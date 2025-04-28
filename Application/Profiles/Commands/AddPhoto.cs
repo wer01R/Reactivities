@@ -1,12 +1,9 @@
-using System;
-using Application.DTOs;
+using Application.Core;
 using Application.Interfaces;
-using Application.Profiles.DTOs;
 using Domain;
 using Interfaces;
 using MediatR;
 using Microsoft.AspNetCore.Http;
-using Microsoft.EntityFrameworkCore;
 using Persistence;
 
 namespace Application.Profiles.Commands;

@@ -1,8 +1,6 @@
-using System;
-using System.Reflection.Metadata.Ecma335;
-using Application.DTOs;
+using Application.Activities.DTOs;
+using Application.Core;
 using AutoMapper;
-using Domain;
 using MediatR;
 using Persistence;
 

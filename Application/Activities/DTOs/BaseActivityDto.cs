@@ -1,6 +1,6 @@
 using System;
 
-namespace Application.DTOs;
+namespace Application.Activities.DTOs;
 
 public class BaseActivityDto
 {

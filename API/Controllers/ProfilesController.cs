@@ -1,5 +1,6 @@
 using System;
 using Application.Profiles.Commands;
+using Application.Profiles.DTOs;
 using Application.Profiles.Queries;
 using Microsoft.AspNetCore.DataProtection.Internal;
 using Microsoft.AspNetCore.Mvc;
@@ -30,6 +31,12 @@ public class ProfilesController : BaseApiController
     public async Task<IActionResult> SetMainPhoto(string photoId)
     {
         return HandleRequest(await Mediator.Send(new SetMainPhoto.Command {PhotoId = photoId}));
+    }
+
+    [HttpPut]
+    public async Task<IActionResult> SetProfile(UpdateUserDto user)
+    {
+        return HandleRequest(await Mediator.Send(new SetProfile.Command {User = user}));
     }
 
     [HttpGet("{userId}")]

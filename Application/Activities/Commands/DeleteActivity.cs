@@ -1,6 +1,6 @@
 using System;
 using System.Runtime.CompilerServices;
-using Application.DTOs;
+using Application.Core;
 using MediatR;
 using Persistence;
 

@@ -1,5 +1,4 @@
-using System;
-using Application.DTOs;
+using Application.Core;
 using Domain;
 using Interfaces;
 using MediatR;

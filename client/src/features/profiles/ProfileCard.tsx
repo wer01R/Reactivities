@@ -44,15 +44,15 @@ export default function ProfileCard({profile, onMouseEnter, onMouseLeave} : Prop
 								{profile.bio}
 							</Typography>
 						)}
-						<Chip size="small" variant="outlined" 
-							label='Following' color="secondary"/>
+						{profile.following && <Chip size="small" variant="outlined" 
+							label='Following' color="secondary"/>}
 					</Box>
 				</CardContent>
 
 				<Divider sx={{mx: 2}}/>
 				<Box sx={{display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
 					<Person />
-					<Typography sx={{ml: 1}}>20 Followers</Typography>
+					<Typography sx={{ml: 1}}>{profile.followersCount} Followers</Typography>
 				</Box>
 			</Card>
 		</Link>

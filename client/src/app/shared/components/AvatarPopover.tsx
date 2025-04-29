@@ -6,9 +6,10 @@ import ProfileCard from '../../../features/profiles/ProfileCard';
 
 type Props = {
 	profile: Profile
+	size?: number
 }
 
-export default function AvatarPopover({profile} : Props) {
+export default function AvatarPopover({profile, size} : Props) {
 	const [anchorEl, setAnchorEl] = React.useState<HTMLElement | null>(null);
 
 	const handlePopoverOpen = (event: React.MouseEvent<HTMLElement>) => {
@@ -27,6 +28,12 @@ export default function AvatarPopover({profile} : Props) {
 				alt={profile.displayName + ' image'}
 				src={profile.imageUrl}
 				component={Link}
+				sx={{
+					border: profile.following ? 3 : 0,
+					borderColor: 'secondary.name',
+					height: size,
+					width: size
+				}}
 				to={`/profiles/${profile.id}`}
 				onMouseEnter={handlePopoverOpen}
 				onMouseLeave={handlePopoverClose}

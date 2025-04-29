@@ -18,7 +18,6 @@ public class PhotoService : IPhotoService
             config.Value.ApiKey,
             config.Value.ApiSecret
         );
-
         _cloudinary = new Cloudinary(account);
     }
 

@@ -1,7 +1,6 @@
 import { Card, CardMedia, Box, Typography, Chip } from "@mui/material";
 import { Link } from "react-router";
 import { formatDate } from "../../../lib/util/util";
-import { useAccount } from "../../../lib/hooks/useAccount";
 import { UseMutationResult } from "@tanstack/react-query";
 import StyledButton from "../../../app/shared/components/StyledButton";
 
@@ -11,7 +10,6 @@ type Props = {
 }
 
 export default function ActivityDetailsHeader({activity, updateAttendance} : Props) {
-	const { currentUser } = useAccount();
 	const isHost = activity.isHost;	
 	const isGoing = activity.isGoing;
 
@@ -48,8 +46,8 @@ export default function ActivityDetailsHeader({activity, updateAttendance} : Pro
 					<Typography variant="h4" sx={{ fontWeight: 'bold' }}>{activity.title}</Typography>
 					<Typography variant="subtitle1">{formatDate(activity.date)}</Typography>
 					<Typography variant="subtitle2">
-						Hosted by <Link to={`/profiles/${currentUser?.id}`} style={{ color: 'white', fontWeight: 'bold' }}>
-							{currentUser?.displayName}
+						Hosted by <Link to={`/profiles/${activity.hostId}`} style={{ color: 'white', fontWeight: 'bold' }}>
+							{activity.hostDisplayName}
 						</Link>
 					</Typography>
 				</Box>

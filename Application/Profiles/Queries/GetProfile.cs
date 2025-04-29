@@ -2,6 +2,7 @@ using Application.Core;
 using Application.Profiles.DTOs;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
+using Interfaces;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Persistence;
@@ -14,12 +15,13 @@ public class GetProfile
     {
         public required string UserId { get; set; }
     }
-    public class Handler(AppDbContext context, IMapper mapper) : IRequestHandler<Query, Result<UserProfile>>
+    public class Handler(AppDbContext context, IMapper mapper, IUserAccessor userAccessor) : IRequestHandler<Query, Result<UserProfile>>
     {
         public async Task<Result<UserProfile>> Handle(Query request, CancellationToken cancellationToken)
         {
             var profile = await context.Users
-                .ProjectTo<UserProfile>(mapper.ConfigurationProvider)
+                .ProjectTo<UserProfile>(mapper.ConfigurationProvider,
+                        new {currentUserId = userAccessor.GetUserId()})
                 .FirstOrDefaultAsync(x => x.Id == request.UserId, cancellationToken);
             
             return profile == null

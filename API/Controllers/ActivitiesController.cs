@@ -10,8 +10,9 @@ namespace API.Controllers;
 public class ActivitiesController : BaseApiController
 {
     [HttpGet]
-    public async Task<ActionResult<List<ActivityDto>>> GetActivities() {
-        return await Mediator.Send(new GetActivityList.Query());
+    public async Task<IActionResult> GetActivities(
+        [FromQuery]ActivityParams activityParams) {
+        return HandleRequest(await Mediator.Send(new GetActivityList.Query {Params = activityParams}));
     }
 
     [HttpGet("{id}")]

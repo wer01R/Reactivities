@@ -3,7 +3,7 @@ import agent from "../api/agent";
 import { useMemo } from "react";
 import { ProfileType } from "../schemas/profileSchema";
 
-export const useProfile = (id?: string, predicate?: string) => {
+export const useProfile = (id?: string, predicate?: string, filter?: string) => {
   const queryClient = useQueryClient();
 
   const {data: profile, isLoading: isLoadingProfile} = useQuery<Profile>({
@@ -12,7 +12,7 @@ export const useProfile = (id?: string, predicate?: string) => {
       const response = await agent.get<Profile>(`/profiles/${id}`);
       return response.data;
     },
-    enabled: !!id && !predicate
+    enabled: !!id && !predicate && !filter
   });
 
   const {data: photos, isLoading: isLoadingPhotos} = useQuery<Photo[]>({
@@ -21,8 +21,23 @@ export const useProfile = (id?: string, predicate?: string) => {
       const response = await agent.get<Photo[]>(`/profiles/${id}/photos`);
       return response.data;
     },
-    enabled: !!id && !predicate
+    enabled: !!id && !predicate && !filter
   });
+
+  const {data: userActivities, 
+    isPending: isLoadingUserActivities} = useQuery<UserActivity[]>({
+
+    queryKey: ['userActivities', id, filter],
+    queryFn: async () => {
+      const response = await agent.get<UserActivity[]>(`/profiles/${id}/activities`, {
+        params: {
+          filter
+        }
+      });
+      return response.data;
+    },
+    enabled: !!id && !predicate && !!filter
+  })
 
   const {data: followings, isLoading: isLoadingFollowings} = useQuery({
     queryKey: ['profile', id, predicate],
@@ -31,7 +46,7 @@ export const useProfile = (id?: string, predicate?: string) => {
         await agent.get<Profile[]>(`/profiles/${id}/follow-list?predicate=${predicate}`);
       return response.data;
     },
-    enabled: !!id && !!predicate
+    enabled: !!id && !!predicate && !filter
   })
 
   const uploadPhoto = useMutation({
@@ -156,6 +171,8 @@ export const useProfile = (id?: string, predicate?: string) => {
     updateProfile,
     updateFollowing,
     followings,
-    isLoadingFollowings
+    isLoadingFollowings,
+    userActivities,
+    isLoadingUserActivities
   }
 }

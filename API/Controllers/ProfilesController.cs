@@ -1,4 +1,5 @@
 using System;
+using Application.Activities.Queries;
 using Application.Profiles.Commands;
 using Application.Profiles.DTOs;
 using Application.Profiles.Queries;
@@ -52,9 +53,16 @@ public class ProfilesController : BaseApiController
     }
 
     [HttpGet("{userId}/follow-list")]
-
     public async Task<IActionResult> GetFollowings(string userId, string predicate)
     {
         return HandleRequest(await Mediator.Send(new GetFollowings.Query {UserId = userId, Predicate = predicate}));
     }
+
+    [HttpGet("{userId}/activities")]
+    public async Task<IActionResult> GetActivities(string userId, 
+        [FromQuery]ActivityParams activityParams)
+    {
+        return HandleRequest(await Mediator.Send(new GetUserActivities.Query {UserId = userId, Params = activityParams}));
+    }
+
 }

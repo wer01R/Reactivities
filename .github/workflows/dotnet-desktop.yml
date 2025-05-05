@@ -40,7 +40,7 @@ jobs:
     - name: dotnet publish 
       run: |
         dotnet publish -c Release -o ./API/bin/myApp
-        
+
     - run: ls -la ./API/bin/myApp
 
     # 部署到阿里云
@@ -51,6 +51,6 @@ jobs:
         username: ${{ secrets.ALIYUN_USER }}
         key: ${{ secrets.ALIYUN_KEY }}
         port: 22
-        source: ".API/bin/myApp/*"
+        source: "./API/bin/myApp/*"
         target: "/var/www/myapp"
 

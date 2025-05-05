@@ -34,11 +34,13 @@ public class AppDbContext(DbContextOptions opt) : IdentityDbContext<User>(opt)
 
             x.HasOne(o => o.Observer)
             .WithMany(f => f.Followings)
-            .HasForeignKey(o => o.ObserverId);
+            .HasForeignKey(o => o.ObserverId)
+            .OnDelete(DeleteBehavior.Cascade);
 
             x.HasOne(t => t.Target)
             .WithMany(f => f.Followers)
-            .HasForeignKey(t => t.TargetId);
+            .HasForeignKey(t => t.TargetId)
+            .OnDelete(DeleteBehavior.NoAction);
         });
         
         var dateTimeConverter = new ValueConverter<DateTime, DateTime>(

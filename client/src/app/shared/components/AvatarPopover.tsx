@@ -30,7 +30,7 @@ export default function AvatarPopover({profile, size} : Props) {
 				component={Link}
 				sx={{
 					border: profile.following ? 3 : 0,
-					borderColor: 'secondary.name',
+					borderColor: 'secondary.main',
 					height: size,
 					width: size
 				}}

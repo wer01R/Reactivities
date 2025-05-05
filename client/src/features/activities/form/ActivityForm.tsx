@@ -76,7 +76,7 @@ const ActivityForm = React.forwardRef<HTMLDivElement, Props>(({ style, className
         </Box>
 
         <Box display="flex" justifyContent={"end"} gap={3} mt={1}>
-          <Button onClick={() => navigate("/activities")}>Cancel</Button>
+          <Button onClick={() => navigate(-1)}>Cancel</Button>
           <Button
             type="submit"
             color="success"

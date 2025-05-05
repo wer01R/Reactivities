@@ -35,9 +35,9 @@ jobs:
       run: dotnet build --configuration Release
 
     - name: dotnet publish 
-      working-directory: ./backend
+      working-directory: ./API
       run: |
-        dotnet publish -c Release -o "${{env.DOTNET_ROOT}}/myapp"
+        dotnet publish -c Release -o ".bin/Publish"
 
     # 部署到阿里云
     # - name: Deploy to Aliyun ECS

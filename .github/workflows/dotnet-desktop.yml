@@ -50,5 +50,5 @@ jobs:
         key: ${{ secrets.ALIYUN_KEY }}
         port: 22
         source: "./myApp/*"
-        target: "/www/wwwroot/myapp"
+        target: "/www/wwwroot"
 

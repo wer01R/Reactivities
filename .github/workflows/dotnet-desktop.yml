@@ -39,9 +39,7 @@ jobs:
 
     - name: dotnet publish 
       run: |
-        dotnet publish -c Release -o ./API/bin/myApp
-
-    - run: ls -la ./API/bin/myApp
+        dotnet publish -c Release -o ./myApp
 
     # 部署到阿里云
     - name: Deploy to Aliyun ECS
@@ -52,5 +50,5 @@ jobs:
         key: ${{ secrets.ALIYUN_KEY }}
         port: 22
         source: "./API/bin/myApp/*"
-        target: "/var/www/myapp"
+        target: "/www/wwwroot/myapp"
 

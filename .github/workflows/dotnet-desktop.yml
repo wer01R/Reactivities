@@ -49,6 +49,6 @@ jobs:
         username: ${{ secrets.ALIYUN_USER }}
         key: ${{ secrets.ALIYUN_KEY }}
         port: 22
-        source: "./API/bin/myApp/*"
+        source: "./myApp/*"
         target: "/www/wwwroot/myapp"
 

@@ -15,6 +15,8 @@ export default function PhotoUploadWidget({uploadPhoto, isLoading} : Props) {
 	const cropperRef = useRef<ReactCropperElement>(null);
 
 	useEffect(() => {
+		console.log(files[0]);
+		
 		return () => {
 			files.forEach(file => {
 				URL.revokeObjectURL(file.preview)
@@ -27,17 +29,22 @@ export default function PhotoUploadWidget({uploadPhoto, isLoading} : Props) {
 			preview: URL.createObjectURL(file)
 		})))
 	}, []);
+
 	const onCrop = useCallback(() => {
 		const crop = cropperRef.current?.cropper;
 		crop?.getCroppedCanvas().toBlob((data) => {
 			if(data) uploadPhoto(data)
 		})
 	}, [uploadPhoto]);
-	const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop })
+
+	const { getRootProps, getInputProps, isDragActive } = useDropzone({ 
+		onDrop,
+		accept: {"image/*": []}
+	})
 
 	return (
 		<Grid2 container spacing={3} width="100%">
-			<Grid2 size={4}>
+			<Grid2 size={4} >
 				<Typography variant="overline" color="secondary">Step 1 - Add photo</Typography>
 				<Box {...getRootProps()}
 					sx={{

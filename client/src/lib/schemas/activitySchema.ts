@@ -13,7 +13,7 @@ export const activitySchema = z.object({
     latitude: z.coerce.number()
   }),
 
-  date: z.date({required_error: "Date is required"})
+  date: z.date({required_error: "Date is required"}).min(new Date(), {message: "Date must be in the future"})
 });
 
 export type ActivitySchema = z.infer<typeof activitySchema>;

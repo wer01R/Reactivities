@@ -54,6 +54,8 @@ export default function LocationInput<T extends FieldValues>(props : Props<T>) {
 		const latitude = location.lat;
 		const longitude = location.lon;
 
+		console.log(city, venue);
+		
 		setInputValue(venue);
 		field.onChange({venue: venue, city: city, latitude: latitude, longitude: longitude});
 		setSuggestions([]);

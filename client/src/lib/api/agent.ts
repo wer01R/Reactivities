@@ -39,6 +39,7 @@ agent.interceptors.response.use(
             if(data.errors[key])
               modalStateErrors.push(data.errors[key]);
           }
+          modalStateErrors.flat().forEach(err => toast.error(err))          
           throw modalStateErrors.flat();
         } else {
           toast.error(data);

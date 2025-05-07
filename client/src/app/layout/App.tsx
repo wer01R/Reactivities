@@ -6,7 +6,13 @@ import HomePage from '../../features/home/HomePage';
 function App() {
   const location = useLocation();
   return (
-    <Box sx={{ backgroundColor: '#eeeeee', display: 'flex', minHeight: '100vh', paddingBottom: 3 }}>
+    <Box 
+      sx={{ 
+        backgroundColor: '#eeeeee', 
+        display: 'flex', 
+        minHeight: '100vh', 
+      }}
+    >
       <ScrollRestoration />
       <CssBaseline />
       {location.pathname == '/' ? <HomePage /> :

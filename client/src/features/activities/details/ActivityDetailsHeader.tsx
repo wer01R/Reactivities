@@ -1,8 +1,9 @@
-import { Card, CardMedia, Box, Typography, Chip } from "@mui/material";
+import { Card, CardMedia, Box, Typography, Chip, useMediaQuery } from "@mui/material";
 import { Link } from "react-router";
 import { formatDate } from "../../../lib/util/util";
 import { UseMutationResult } from "@tanstack/react-query";
 import StyledButton from "../../../app/shared/components/StyledButton";
+import theme from "../../../lib/theme/theme";
 
 type Props = {
 	activity: Activity
@@ -12,6 +13,7 @@ type Props = {
 export default function ActivityDetailsHeader({activity, updateAttendance} : Props) {
 	const isHost = activity.isHost;	
 	const isGoing = activity.isGoing;
+  const isDownMd = useMediaQuery(theme.breakpoints.down("md"));
 
 	return (
 		<Card sx={{ position: 'relative', mb: 2, backgroundColor: 'transparent', overflow: 'hidden' }}>
@@ -24,7 +26,8 @@ export default function ActivityDetailsHeader({activity, updateAttendance} : Pro
 			)}
 			<CardMedia
 				component="img"
-				height="300"
+				width={isDownMd ? '80vw' : 'auto'}
+				height={isDownMd ? '200' : "300"}
 				image={`/images/categoryImages/${activity.category}.jpg`}
 				alt={`${activity.category} image`}
 			/>
@@ -35,9 +38,9 @@ export default function ActivityDetailsHeader({activity, updateAttendance} : Pro
 				color: 'white',
 				padding: 2,
 				display: 'flex',
-				flexDirection: 'row',
+				flexDirection: isDownMd ? 'column' : 'row',
 				justifyContent: 'space-between',
-				alignItems: 'flex-end',
+				alignItems: isDownMd ? 'flex-start' : 'flex-end',
 				background: 'linear-gradient(to top, rgba(0, 0, 0, 1.0), transparent)',
 				boxSizing: 'border-box',
 			}}>
@@ -53,7 +56,7 @@ export default function ActivityDetailsHeader({activity, updateAttendance} : Pro
 				</Box>
 
 				{/* Buttons aligned to the right */}
-				<Box sx={{ display: 'flex', gap: 2 }}>
+				<Box sx={{ display: 'flex', gap: 2, mt: isDownMd ? 2 : 0 }}>
 					{isHost ? (
 						<>
 							<StyledButton
@@ -80,6 +83,7 @@ export default function ActivityDetailsHeader({activity, updateAttendance} : Pro
 							color={isGoing ? 'primary' : 'info'}
 							onClick={() => updateAttendance.mutate()}
 							disabled={updateAttendance.isPending || activity.isCancelled}
+							sx={{fontSize: 'auto'}}
 						>
 							{isGoing ? 'Cancel Attendance' : 'Join Activity'}
 						</StyledButton>

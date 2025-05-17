@@ -10,34 +10,36 @@ export default function ActivityDetailsInfo({ activity }: { activity: Activity }
 	return (
 		<Paper sx={{ mb: 2 }}>
 
-			<Grid2 container alignItems="center" pl={2} py={1}>
+			<Grid2 container alignItems="center" pl={2} py={1} spacing={6}>
 				<Grid2 size={1} justifySelf={'center'}>
 					<Info color="info" fontSize="large" />
 				</Grid2>
-				<Grid2 size={11}>
+				<Grid2 size={{md: 11, xs: 9}}>
 					<Typography>{activity.description}</Typography>
 				</Grid2>
 			</Grid2>
+
 			<Divider />
-			<Grid2 container alignItems="center" pl={2} py={1}>
+
+			<Grid2 container alignItems="center" pl={2} py={1} spacing={6}> 
 				<Grid2 size={1}>
 					<CalendarToday color="info" fontSize="large" />
 				</Grid2>
-				<Grid2 size={11}>
+				<Grid2 size={{md: 11, xs: 9}}>
 					<Typography>{formatDate(activity.date)}</Typography>
 				</Grid2>
 			</Grid2>
 			<Divider />
 
-			<Grid2 container alignItems="center" pl={2} py={1}>
+			<Grid2 container alignItems="center" pl={2} py={1} spacing={6}>
 				<Grid2 size={1}>
 					<Place color="info" fontSize="large" />
 				</Grid2>
-				<Grid2 size={11} display='flex' justifyContent='space-between' >
+				<Grid2 size={{md: 11, xs: 10}} display='flex' justifyContent='space-between' >
 					<Typography>
-						{activity.venue}, {activity.venue}
+						{activity.venue}, {activity.city}
 					</Typography>
-					<Button sx={{whiteSpace: 'nowrap', mx: 3}} onClick={() => setMapOpen(!mapOpen)}>
+					<Button sx={{whiteSpace: 'nowrap', mx: 3, padding: 0}} onClick={() => setMapOpen(!mapOpen)}>
 						{mapOpen ? 'Hide map' : 'Show map'}
 					</Button>
 				</Grid2>

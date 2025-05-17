@@ -15,6 +15,8 @@ import { ToastContainer } from 'react-toastify'
 import { LocalizationProvider } from '@mui/x-date-pickers'
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFnsV3'
 import { zhCN } from 'date-fns/locale'
+import { ThemeProvider } from '@emotion/react';
+import theme from './lib/theme/theme.ts';
 
 const queryClient = new QueryClient();
 
@@ -25,7 +27,11 @@ createRoot(document.getElementById('root')!).render(
         <QueryClientProvider client={queryClient}>
           <ReactQueryDevtools />
           <ToastContainer position='bottom-right' theme='colored' />
+          <ThemeProvider theme={theme}>
+
           <RouterProvider router={router} />
+          
+          </ThemeProvider>
         </QueryClientProvider>
       </StoreContext.Provider>
     </LocalizationProvider>

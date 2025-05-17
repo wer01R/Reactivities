@@ -26,10 +26,10 @@
     },
     "[typescriptreact]": {
       "editor.tabSize": 2,
-      "editor.insertSpaces": false  // Markdown 中使用实际 Tab 字符
+      "editor.insertSpaces": false  // typescriptreact 中使用实际 Tab 字符
     },
     "[css]": {
       "editor.tabSize": 2,
-      "editor.insertSpaces": false  // Markdown 中使用实际 Tab 字符
+      "editor.insertSpaces": false  // css 中使用实际 Tab 字符
     },
 }

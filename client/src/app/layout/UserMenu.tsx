@@ -7,7 +7,11 @@ import { useAccount } from '../../lib/hooks/useAccount';
 import { Link } from 'react-router';
 import { Add, Logout, Person } from '@mui/icons-material';
 
-export default function UserMenu() {
+type Props = {
+	onClick?: () => void
+}
+
+export default function UserMenu({onClick} : Props) {
 	const {currentUser, logoutUser} = useAccount();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
@@ -16,6 +20,8 @@ export default function UserMenu() {
   };
   const handleClose = () => {
     setAnchorEl(null);
+		if(onClick)
+			onClick()
   };
 
   return (

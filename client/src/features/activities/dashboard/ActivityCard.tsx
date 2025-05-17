@@ -1,9 +1,10 @@
 import { AccessTime, Place } from "@mui/icons-material"
-import { Avatar, Box, Button, Card, CardContent, CardHeader, Chip, Divider, Typography } from "@mui/material"
+import { Avatar, Box, Button, Card, CardContent, CardHeader, Chip, Divider, Typography, useMediaQuery } from "@mui/material"
 import React from "react"
 import { Link } from "react-router"
 import { formatDate } from "../../../lib/util/util"
 import AvatarPopover from "../../../app/shared/components/AvatarPopover"
+import theme from "../../../lib/theme/theme"
 
 type Props = {
   style?: React.CSSProperties
@@ -14,7 +15,7 @@ type Props = {
 const ActivityCard = React.forwardRef<HTMLDivElement, Props>(({ activity, style, className }, ref) => {
   const isHost = activity.isHost;
   const isGoing = activity.isGoing;
-
+  const isDownMd = useMediaQuery(theme.breakpoints.down("md"));
   const label = isHost ? 'You are hosting' : 'You are going';
   const isCancelled = activity.isCancelled;
   const color = isHost ? 'secondary' : isGoing ? 'warning' : 'default';
@@ -25,9 +26,9 @@ const ActivityCard = React.forwardRef<HTMLDivElement, Props>(({ activity, style,
       <Card elevation={3} sx={{ borderRadius: 3 }}>
         <Box display='flex' alignItems='center' justifyContent='space-between'>
           <CardHeader
-            avatar={<Avatar 
-              src={activity.hostImageUrl} 
-              sx={{ height: 80, width: 80 }} 
+            avatar={<Avatar
+              src={activity.hostImageUrl}
+              sx={{ height: 80, width: 80 }}
               alt={activity.hostDisplayName + " image"}
             />}
             title={activity.title}
@@ -53,16 +54,32 @@ const ActivityCard = React.forwardRef<HTMLDivElement, Props>(({ activity, style,
         <Divider sx={{ mb: 1 }} />
 
         <CardContent sx={{ px: 0 }}>
-          <Box display='flex' alignItems='center' mb={2} px={2}>
+          <Box 
+            display='flex' 
+            sx={{ flexDirection: isDownMd ? 'column' : 'row' }} 
+            alignItems='flex-start' 
+            mb={2} px={2} gap={1}
+          >
             <Box display='flex' flexGrow={0} alignItems='center'>
               <AccessTime sx={{ mr: 1 }} />
               <Typography variant="body2" noWrap>{formatDate(activity.date)}</Typography>
             </Box>
-            <Place sx={{ ml: 3, mr: 1 }} />
-            <Typography variant="body2">{activity.venue}</Typography>
+            <Box display='flex' flexGrow={0} alignItems='center'>
+              <Place sx={{ ml: isDownMd ? 0 : 3, mr: 1 }} />
+              <Typography variant="body2" 
+                sx={{
+                  display: "-webkit-box",
+                  overflow: 'hidden',
+                  WebkitBoxOrient: 'vertical',
+                  WebkitLineClamp: 2,
+                }}
+              >{activity.venue}</Typography>
+            </Box>
           </Box>
+
           <Divider />
-          <Box display='flex' gap={2} sx={{ backgroundColor: 'grey.200', py: 3, pl: 3 }} >
+
+          <Box display='flex' gap={2} sx={{ backgroundColor: 'grey.200', py: isDownMd ? 1 : 3, pl: 3 }} >
             {activity.attendees.map(att => (
               <AvatarPopover key={att.id} profile={att} />
             ))}
@@ -70,7 +87,14 @@ const ActivityCard = React.forwardRef<HTMLDivElement, Props>(({ activity, style,
         </CardContent>
 
         <CardContent sx={{ pd: 2, pt: 0 }}>
-          <Typography>
+          <Typography
+            sx={{
+              display: "-webkit-box",
+              overflow: 'hidden',
+              WebkitBoxOrient: 'vertical',
+              WebkitLineClamp: 2
+            }}
+          >
             {activity.description}
           </Typography>
           <Button

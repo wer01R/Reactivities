@@ -1,13 +1,15 @@
 import { useParams } from "react-router"
 import { useProfile } from "../../lib/hooks/useProfile";
-import { Box, Button, CircularProgress, Divider, ImageList, ImageListItem, Typography } from "@mui/material";
+import { Box, Button, CircularProgress, Divider, ImageList, ImageListItem, Typography, useMediaQuery } from "@mui/material";
 import { useState } from "react";
 import PhotoUploadWidget from "../../app/shared/components/PhotoUploadWidget";
 import StarButton from "../../app/shared/components/StarButton";
 import DeleteButton from "../../app/shared/components/DeleteButton";
+import theme from "../../lib/theme/theme";
 
 export default function ProfilePhotos() {
 	const { id } = useParams();
+  const isDownMd = useMediaQuery(theme.breakpoints.down("md"));
 	const { photos, isLoadingPhotos, isCurrentUser,
 		uploadPhoto, profile, setMainPhoto, deletePhoto } = useProfile(id);
 	const [editMode, setEditMode] = useState(false);
@@ -48,7 +50,7 @@ export default function ProfilePhotos() {
 					isLoading={uploadPhoto.isPending}
 				/>
 			) : (photos.length !== 0 ? (
-				<ImageList cols={6} >
+				<ImageList cols={isDownMd ? 2 : 6} >
 					{photos.map((item) => (
 						<ImageListItem key={item.id}>
 							<img

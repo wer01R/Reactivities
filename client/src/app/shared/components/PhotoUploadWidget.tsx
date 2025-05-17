@@ -1,9 +1,10 @@
 import { CloudUpload } from "@mui/icons-material";
-import { Box, Button, Grid2, Typography } from "@mui/material";
+import { Box, Button, Grid2, Typography, useMediaQuery } from "@mui/material";
 import Cropper, { ReactCropperElement } from "react-cropper";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useDropzone } from 'react-dropzone';
 import "cropperjs/dist/cropper.css";
+import theme from "../../../lib/theme/theme";
 
 type Props = {
 	uploadPhoto: (file: Blob) => void
@@ -13,6 +14,8 @@ type Props = {
 export default function PhotoUploadWidget({uploadPhoto, isLoading} : Props) {
 	const [files, setFiles] = useState<(File & { preview: string; })[]>([]);
 	const cropperRef = useRef<ReactCropperElement>(null);
+  const isDownMd = useMediaQuery(theme.breakpoints.down("md"));
+
 
 	useEffect(() => {
 		console.log(files[0]);
@@ -44,7 +47,7 @@ export default function PhotoUploadWidget({uploadPhoto, isLoading} : Props) {
 
 	return (
 		<Grid2 container spacing={3} width="100%">
-			<Grid2 size={4} >
+			<Grid2 size={{md: 4, xs: 12}} >
 				<Typography variant="overline" color="secondary">Step 1 - Add photo</Typography>
 				<Box {...getRootProps()}
 					sx={{
@@ -62,12 +65,12 @@ export default function PhotoUploadWidget({uploadPhoto, isLoading} : Props) {
 				</Box>
 			</Grid2>
 
-			<Grid2 size={4}>
+			<Grid2 size={{md: 4, xs: 12}}>
 				<Typography variant="overline" color="secondary">Step 2 - Resize image</Typography>
 				{files[0]?.preview && 
 				<Cropper 
 					src={files[0].preview}
-					style={{height: 300, width: "90%"}}
+					style={{height: 300, width: isDownMd ? "100%" : "90%"}}
 					aspectRatio={1}
 					initialAspectRatio={1}
 					preview=".img-preview"
@@ -79,13 +82,16 @@ export default function PhotoUploadWidget({uploadPhoto, isLoading} : Props) {
 				/>}
 			</Grid2>
 
-			<Grid2 size={4}>
+			<Grid2 size={{md: 4, xs: 12}}>
 				{files[0]?.preview && 
 				<>
 					<Typography variant="overline" color="secondary">Step 3 - Preview & upload</Typography>
 					<div 
 						className="img-preview"
-						style={{height: 300, width: 300, overflow: 'hidden'}}
+						style={{height: 300, 
+							width: isDownMd ? "100%" : 300, 
+							aspectRatio: "1 / 1",
+							overflow: 'hidden'}}
 					/>
 					<Button
 						sx={{mt: 2}}

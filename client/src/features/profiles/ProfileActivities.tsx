@@ -31,7 +31,7 @@ export default function ProfileActivities() {
 			): (userActivities == null || userActivities.length == 0) ? (
 				<Typography>There are no activities here</Typography>
 			) : (
-			<Box display='flex' gap={3} mt={3} >
+			<Box display='flex' gap={3} mt={3} flexWrap='wrap'>
 					{userActivities.map(activity => (
 						<MiniActivityCard key={activity.id} activity={activity}/>
 					))}

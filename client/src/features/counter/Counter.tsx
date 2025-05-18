@@ -1,11 +1,13 @@
-import { Box, Button, ButtonGroup, List, ListItemText, Paper, Typography } from "@mui/material";
+import { Box, Button, ButtonGroup, List, ListItemText, Paper, Typography, useMediaQuery } from "@mui/material";
 import { useStore } from "../../lib/hooks/useStore";
 import { observer } from "mobx-react-lite"
+import theme from "../../lib/theme/theme";
 
 const Counter = observer(() => {
 	const { counterStore } = useStore();
+  const isDownMd = useMediaQuery(theme.breakpoints.down("md"));
 	return (
-		<Box display='flex' justifyContent='space-between'>
+		<Box display='flex' flexDirection={{md: 'row', xs: 'column'}} justifyContent='space-between'>
 			<Box width='60%'>
 				<Typography variant="h4" gutterBottom>{counterStore.title}</Typography>
 				<Typography variant="h6">{counterStore.count}</Typography>
@@ -16,7 +18,7 @@ const Counter = observer(() => {
 					<Button onClick={() => counterStore.increment(5)} variant="contained" color="primary">Increment 5</Button>
 				</ButtonGroup>
 			</Box>
-			<Paper sx={{ width: '40%', p: 4 }}>
+			<Paper sx={{ width: isDownMd ? "100%" : '40%', p: 4, mt: isDownMd ? "2rem" : "0" }}>
 				<Typography variant="h5">Counter events ({counterStore.eventCount})</Typography>
 				<List>
 					{counterStore.events.map((e, index) => (

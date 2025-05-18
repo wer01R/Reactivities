@@ -22,7 +22,8 @@ export default function ProfileHeader() {
 						/>
 
 						<Box display="flex" flexDirection="column" gap={2}>
-							<Typography variant="h4" sx={{fontSize: isDownMd ? 40 : 25}}>
+							<Typography variant="h4" 
+								sx={{fontSize: 'clamp(10px, 4vw, 40px)'}}>
 									{profile.displayName}</Typography>
 							{profile.following && !isDownMd && <Chip
 								variant="outlined"

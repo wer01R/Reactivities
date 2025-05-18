@@ -30,11 +30,16 @@ export default function UserMenu({onClick} : Props) {
         onClick={handleClick}
 				color='inherit'
 				size='large'
-				sx={{fontSize: '1.1rem'}}
+				sx={{
+					fontSize: '1.1rem',
+					display: 'flex',
+				}}
       >
 				<Box
 					display='flex'
 					alignItems='center'
+					justifyContent='center'
+					flexDirection={{md: 'row', xs: 'column'}}
 					gap={2}
 				>
 					<Avatar 
@@ -44,6 +49,7 @@ export default function UserMenu({onClick} : Props) {
 					{currentUser?.displayName}
 				</Box>
       </Button>
+
       <Menu
         id="basic-menu"
         anchorEl={anchorEl}

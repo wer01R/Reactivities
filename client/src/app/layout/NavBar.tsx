@@ -70,6 +70,7 @@ export default function NavBar() {
     <Box
       display='flex'
       alignItems='center'
+      justifyContent='center'
       sx={{ mt: isDownMd ? '1rem' : 0 }}
     >
       {currentUser ? (
@@ -93,7 +94,7 @@ export default function NavBar() {
               <>
                 <Icon />
                 <Box display='flex' gap={2}>
-                  {location.pathname == 'activities' ? (
+                  {location.pathname == '/activities' ? (
                     <Button onClick={() => toggleFilterDrawer(true)}
                       sx={{ padding: 0, minWidth: "unset" }} >
                       <FilterList sx={{ color: "white" }} />

@@ -35,7 +35,8 @@ export default function LoginForm() {
 				gap: 3,
 				maxWidth: 'md',
 				borderRadius: 3,
-				mx: 'auto'
+				mx: 'auto',
+				mt: '2rem'
 			}}
 		>
 			<Box display='flex' alignItems='center' justifyContent='center' 

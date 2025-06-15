@@ -1,9 +1,10 @@
-import { Box, Typography, Card, CardContent, TextField, Avatar, CircularProgress } from "@mui/material";
+import { Box, Typography, Card, CardContent, TextField, Avatar, CircularProgress, Button } from "@mui/material";
 import { Link, useParams } from "react-router";
 import { useComments } from "../../../lib/hooks/useComments";
 import { timeAgo } from "../../../lib/util/util";
 import { FieldValues, useForm } from "react-hook-form";
 import { observer } from "mobx-react-lite";
+import { Send } from "@mui/icons-material";
 
 const ActivityDetailsChat = observer(() => {
 	const { id } = useParams();
@@ -44,7 +45,7 @@ const ActivityDetailsChat = observer(() => {
 			<Card>
 				<CardContent>
 					<div>
-						<form>
+						<form style={{position: 'relative'}}>
 							<TextField
 								{...register("body", {required: true})}
 								variant="outlined"
@@ -61,6 +62,9 @@ const ActivityDetailsChat = observer(() => {
 									}
 								}}
 							/>
+							<Button onClick={() => handleSubmit(addComment)()} sx={{position: 'absolute', right: 0, bottom: 0}}>
+								<Send />
+							</Button>
 						</form>
 					</div>
 

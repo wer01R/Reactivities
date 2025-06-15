@@ -11,6 +11,7 @@ function App() {
         backgroundColor: '#eeeeee', 
         display: 'flex', 
         minHeight: '100vh', 
+				justifyContent: 'center',
       }}
     >
       <ScrollRestoration />

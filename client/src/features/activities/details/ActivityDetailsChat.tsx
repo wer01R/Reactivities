@@ -63,7 +63,9 @@ const ActivityDetailsChat = observer(() => {
 								}}
 							/>
 							<Button onClick={() => handleSubmit(addComment)()} sx={{position: 'absolute', right: 0, bottom: 0}}>
+								
 								<Send />
+
 							</Button>
 						</form>
 					</div>

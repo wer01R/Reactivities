@@ -7,9 +7,9 @@ import { activitySchema, ActivitySchema } from "../../../lib/schemas/activitySch
 import { zodResolver } from '@hookform/resolvers/zod';
 import TextInput from "../../../app/shared/components/TextInput";
 import SelectInput from "../../../app/shared/components/SelectInput";
-import { categoryOptions } from "./categoryOptions";
 import DateTimeInput from "../../../app/shared/components/DateTimeInput";
 import LocationInput from "../../../app/shared/components/LocationInput";
+import { categoryOptions } from "../../../lib/util/util";
 
 type Props = {
   style?: React.CSSProperties

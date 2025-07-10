@@ -14,7 +14,7 @@ const ActivityList = observer(function () {
   useEffect(() => {
     if(hasNextPage && inView) {
       fetchNextPage();
-    }
+    } 
   }, [hasNextPage, inView, fetchNextPage]) 
 
 
